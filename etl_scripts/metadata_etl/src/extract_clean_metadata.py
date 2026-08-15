@@ -2,6 +2,8 @@ import oci
 import io
 import zipfile
 import requests
+from datetime import datetime
+import uuid
 
 def extract_metadata_from_aozora(url: str):
     try:
@@ -38,12 +40,14 @@ def extract_metadata_from_aozora(url: str):
         print("Finished extracting metadata.")
         
 
-def load_metadata_into_bucket(csv_data: bytes, bucket_name: str, namespace: str, object_name: str):
+def load_metadata_into_bucket(csv_data: bytes, bucket_name: str, namespace: str):
     try:
         print(f"Loading metadata into bucket: {bucket_name}...")
 
         config = oci.config.from_file()
         object_storage = oci.object_storage.ObjectStorageClient(config)
+
+        object_name = f"{datetime.now().strftime('%y%m%d')}_{uuid.uuid4()}.csv"
 
         object_storage.put_object(
             namespace,
