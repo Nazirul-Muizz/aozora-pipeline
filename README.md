@@ -1,1 +1,1 @@
-# infra_aozora
+# Aozora Bunko Ingestion Pipeline
